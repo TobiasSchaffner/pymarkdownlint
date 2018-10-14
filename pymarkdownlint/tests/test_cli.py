@@ -36,7 +36,7 @@ class CLITests(BaseTestCase):
         result = self.cli.invoke(cli.cli, args)
         expected_string = "Error: Invalid value for \"--config\": Path \"{0}\" does not exist.".format(
             self.get_sample_path("foo"))
-        self.assertEqual(result.output.split("\n")[2], expected_string)
+        self.assertEqual(result.output.split("\n")[3], expected_string)
 
     def test_violations(self):
         result = self.cli.invoke(cli.cli, [self.get_sample_path("sample1.md")])
@@ -54,9 +54,9 @@ class CLITests(BaseTestCase):
 
     def test_cli_list_files(self):
         result = self.cli.invoke(cli.cli, ["--list-files", self.get_sample_path()])
-        expected_string = ""
+        expected_list = []
         expected_files = ["good.md", "sample1.md", "sample2.md"]
         for f in expected_files:
-            expected_string += self.get_sample_path(f) + "\n"
-        self.assertEqual(result.output, expected_string)
+            expected_list.append(self.get_sample_path(f))
+        self.assertCountEqual(result.output.split('\n')[:-1], expected_list)
         self.assertEqual(result.exit_code, 0)
