@@ -1,6 +1,6 @@
 # pymarkdownlint
 
-[![Travis (.org)](https://img.shields.io/travis/cheukyin699/pymarkdownlint.svg?style=for-the-badge)](https://travis-ci.com/cheukyin699/pymarkdownlint)
+[![Travis (.org)](https://img.shields.io/travis/com/cheukyin699/pymarkdownlint.svg?style=for-the-badge)](https://travis-ci.com/cheukyin699/pymarkdownlint)
 [![Codecov](https://img.shields.io/codecov/c/github/cheukyin699/pymarkdownlint.svg?style=for-the-badge)](https://codecov.io/gh/cheukyin699/pymarkdownlint/)
 
 Markdown linter written in python. Inspired by [mivok/markdownlint](https://github.com/mivok/markdownlint).
