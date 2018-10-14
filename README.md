@@ -1,6 +1,4 @@
-# pymarkdownlint (inactive)
-
-**NOTE: PyMarkDownLint is no longer under active development.**
+# pymarkdownlint
 
 [![Build Status](https://travis-ci.org/jorisroovers/pymarkdownlint.svg?branch=master)]
 (https://travis-ci.org/jorisroovers/pymarkdownlint)
@@ -36,7 +34,7 @@ You can modify pymarkdownlint's behavior by specifying a config file like so:
 ```bash
 markdownlint --config myconfigfile 
 ```
-By default, markdownlint will look for an **optional** ```.markdownlint``` file for configuration.
+By default, markdownlint will look for an **optional** `.markdownlint` file for configuration.
 
 ## Config file ##
 
@@ -54,21 +52,20 @@ R1    | max-line-length     | Line length must be &lt; 80 chars.
 R2    | trailing-whitespace | Line cannot have trailing whitespace (space or tab)
 R3    | hard-tabs           | Line contains hard tab characters (\t)
 
-
 ## Development ##
+
+Installation:
+```bash
+# Use pipenv for development
+pip install pipenv
+pipenv install --dev
+pipenv shell
+```
 
 To run tests:
 ```bash
-./run_tests.sh                       # run unit tests and print test coverage
-./run_tests.sh --no-coverage         # run unit tests without test coverage
-./run_tests.sh --pep8                # pep8 checks
-./run_tests.sh --stats               # print some code stats
-```
-
-There is a Vagrantfile in this repository that can be used for development.
-```bash
-vagrant up
-vagrant ssh
+pipenv shell        # If you have yet to run this
+pytest
 ```
 
 ## Wishlist ##
