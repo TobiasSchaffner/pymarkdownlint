@@ -1,3 +1,0 @@
-flake8==2.4.0
-coverage==3.7.1
-radon==1.2.1
