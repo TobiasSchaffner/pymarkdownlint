@@ -35,11 +35,11 @@ class LintConfigTests(BaseTestCase):
 
         # bad config file load
         foo_path = self.get_sample_path("foo")
-        with self.assertRaisesRegexp(LintConfigError, "Invalid file path: {0}".format(foo_path)):
+        with self.assertRaisesRegex(LintConfigError, "Invalid file path: {0}".format(foo_path)):
             LintConfig.load_from_file(foo_path)
 
         # error during file parsing
         bad_markdowlint_path = self.get_sample_path("badmarkdownlint")
         expected_error_msg = "Error during config file parsing: File contains no section headers."
-        with self.assertRaisesRegexp(LintConfigError, expected_error_msg):
+        with self.assertRaisesRegex(LintConfigError, expected_error_msg):
             LintConfig.load_from_file(bad_markdowlint_path)

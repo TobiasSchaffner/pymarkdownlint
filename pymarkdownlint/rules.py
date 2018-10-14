@@ -4,12 +4,11 @@ from pymarkdownlint.options import IntOption
 import re
 
 
-class Rule(object):
+class Rule(object, metaclass=ABCMeta):
     """ Class representing markdown rules. """
     options_spec = []
     id = []
     name = ""
-    __metaclass__ = ABCMeta
 
     def __init__(self, opts={}):
         self.options = {}

@@ -1,5 +1,5 @@
 from pymarkdownlint import rules
-import ConfigParser
+import configparser
 from collections import OrderedDict
 
 import os
@@ -19,7 +19,7 @@ class LintConfig(object):
 
     @property
     def rules(self):
-        return self._rules.values()
+        return list(self._rules.values())
 
     def disable_rule_by_id(self, rule_id):
         del self._rules[rule_id]
@@ -51,10 +51,10 @@ class LintConfig(object):
             raise LintConfigError("Invalid file path: {0}".format(filename))
         config = LintConfig()
         try:
-            parser = ConfigParser.ConfigParser()
+            parser = configparser.ConfigParser()
             parser.read(filename)
             LintConfig._parse_general_section(parser, config)
-        except ConfigParser.Error as e:
+        except configparser.Error as e:
             raise LintConfigError("Error during config file parsing: {0}".format(e.message))
 
         return config
