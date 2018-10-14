@@ -8,6 +8,8 @@ click = "*"
 pytest = "*"
 
 [dev-packages]
+pytest-cov = "*"
+codecov = "*"
 
 [requires]
 python_version = "3.7"
