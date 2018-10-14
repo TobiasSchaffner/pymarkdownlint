@@ -2,6 +2,7 @@
 
 [![Travis (.org)](https://img.shields.io/travis/com/cheukyin699/pymarkdownlint.svg?style=for-the-badge)](https://travis-ci.com/cheukyin699/pymarkdownlint)
 [![Codecov](https://img.shields.io/codecov/c/github/cheukyin699/pymarkdownlint.svg?style=for-the-badge)](https://codecov.io/gh/cheukyin699/pymarkdownlint/)
+![Python Versions](https://img.shields.io/badge/python-3.7-blue.svg?style=for-the-badge)
 
 Markdown linter written in python. Inspired by [mivok/markdownlint](https://github.com/mivok/markdownlint).
 
