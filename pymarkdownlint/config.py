@@ -62,5 +62,5 @@ class LintConfig(object):
     @staticmethod
     def _parse_general_section(parser, config):
         if parser.has_section('general'):
-            ignore = parser.get('general', 'ignore', "")
+            ignore = parser.get('general', 'ignore')
             LintConfig.apply_on_csv_string(ignore, config.disable_rule)
