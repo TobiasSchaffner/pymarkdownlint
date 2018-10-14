@@ -5,9 +5,9 @@ name = "pypi"
 
 [packages]
 click = "*"
-pytest = "*"
 
 [dev-packages]
+pytest = "*"
 pytest-cov = "*"
 codecov = "*"
 

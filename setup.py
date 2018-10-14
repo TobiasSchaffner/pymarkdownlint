@@ -3,8 +3,9 @@ from setuptools import setup, find_packages
 import re
 import os
 
-# There is an issue with building python packages in a shared vagrant directory because of how setuptools works
-# in python < 2.7.9. We solve this by deleting the filesystem hardlinking capability during build.
+# There is an issue with building python packages in a shared vagrant directory
+# because of how setuptools works in python < 2.7.9. We solve this by deleting
+# the filesystem hardlinking capability during build.
 # See: http://stackoverflow.com/a/22147112/381010
 del os.link
 
@@ -13,7 +14,9 @@ long_description = (
     "Source code: https://github.com/jorisroovers/pymarkdownlint"
 )
 
-# shamelessly stolen from mkdocs' setup.py: https://github.com/mkdocs/mkdocs/blob/master/setup.py
+
+# shamelessly stolen from mkdocs' setup.py:
+# https://github.com/mkdocs/mkdocs/blob/master/setup.py
 def get_version(package):
     """Return package version as listed in `__version__` in `init.py`."""
     init_py = open(os.path.join(package, '__init__.py')).read()
@@ -34,11 +37,11 @@ setup(
         "License :: OSI Approved :: MIT License"
     ],
     install_requires=[
-        'Click==4.1',
+        'Click==7.0',
     ],
     keywords='markdown markdownlint pymarkdownlint',
-    author='Joris Roovers',
-    url='https://github.com/jorisroovers/pymarkdownlint',
+    author='Cheuk Yin Ng',
+    url='https://github.com/cheukyin699/pymarkdownlint',
     license='MIT',
     packages=find_packages(exclude=["examples"]),
     entry_points={
