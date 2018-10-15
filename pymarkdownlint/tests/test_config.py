@@ -10,7 +10,7 @@ class LintConfigTests(BaseTestCase):
 
         # get by id
         expected = rules.MaxLineLengthRule()
-        rule = config.get_rule_by_name_or_id('R1')
+        rule = config.get_rule_by_name_or_id('MD013')
         self.assertEqual(rule, expected)
 
         # get by name

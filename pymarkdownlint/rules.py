@@ -54,7 +54,7 @@ class RuleViolation(object):
 
 class MaxLineLengthRule(LineRule):
     name = "max-line-length"
-    id = "R1"
+    id = "MD013"
     options_spec = [IntOption('line-length', 80, "Max line length")]
 
     def validate(self, line):
@@ -65,7 +65,7 @@ class MaxLineLengthRule(LineRule):
 
 class TrailingWhiteSpace(LineRule):
     name = "trailing-whitespace"
-    id = "R2"
+    id = "MD009"
 
     def validate(self, line):
         pattern = re.compile(r"\s$")
@@ -75,7 +75,7 @@ class TrailingWhiteSpace(LineRule):
 
 class HardTab(LineRule):
     name = "hard-tab"
-    id = "R3"
+    id = "MD010"
 
     def validate(self, line):
         if "\t" in line:

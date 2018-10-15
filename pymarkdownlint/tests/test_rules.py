@@ -11,7 +11,7 @@ class RuleTests(BaseTestCase):
         self.assertIsNone(violation)
 
         # assert error on line length > 81
-        expected_violation = RuleViolation("R1", "Line exceeds max length (81>80)")
+        expected_violation = RuleViolation("MD013", "Line exceeds max length (81>80)")
         violation = rule.validate("a" * 81)
         self.assertEqual(violation, expected_violation)
 
@@ -21,7 +21,7 @@ class RuleTests(BaseTestCase):
         self.assertIsNone(violation)
 
         # assert raise on 121
-        expected_violation = RuleViolation("R1", "Line exceeds max length (121>120)")
+        expected_violation = RuleViolation("MD013", "Line exceeds max length (121>120)")
         violation = rule.validate("a" * 121)
         self.assertEqual(violation, expected_violation)
 
@@ -33,7 +33,7 @@ class RuleTests(BaseTestCase):
         self.assertIsNone(violation)
 
         # trailing space
-        expected_violation = RuleViolation("R2", "Line has trailing whitespace")
+        expected_violation = RuleViolation("MD009", "Line has trailing whitespace")
         violation = rule.validate("a ")
         self.assertEqual(violation, expected_violation)
 
@@ -49,6 +49,6 @@ class RuleTests(BaseTestCase):
         self.assertIsNone(violation)
 
         # contains hard tab
-        expected_violation = RuleViolation("R3", "Line contains hard tab characters (\\t)")
+        expected_violation = RuleViolation("MD010", "Line contains hard tab characters (\\t)")
         violation = rule.validate("This is a\ttest")
         self.assertEqual(violation, expected_violation)

@@ -40,16 +40,12 @@ By default, markdownlint will look for an **optional** `.markdownlint` file for 
 ```
 [general]
 # rules can be ignored by name or by id
-ignore=max-line-length, R3
+ignore=max-line-length,MD013
 ```
 
 ## Supported Rules ##
 
-ID    | Name                | Description
-------|---------------------|----------------------------------------------------
-R1    | max-line-length     | Line length must be &lt; 80 chars.
-R2    | trailing-whitespace | Line cannot have trailing whitespace (space or tab)
-R3    | hard-tabs           | Line contains hard tab characters (\t)
+Please see the ruleset [here][ruleset].
 
 ## Development ##
 
@@ -73,3 +69,5 @@ pytest
 - Ignore/exclude files CLI options
 - Rule specific configuration in config files
 - Auto doc generation based on rules
+
+[ruleset]: https://github.com/markdownlint/markdownlint/blob/master/docs/RULES.md
