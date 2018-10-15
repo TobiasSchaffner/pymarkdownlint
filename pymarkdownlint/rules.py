@@ -52,18 +52,8 @@ class RuleViolation(object):
         return self.__str__()
 
 
-class MaxLineLengthRule(LineRule):
-    name = "max-line-length"
-    id = "MD013"
-    options_spec = [IntOption('line-length', 80, "Max line length")]
-
-    def validate(self, line):
-        max_length = self.options['line-length'].value
-        if len(line) > max_length:
-            return RuleViolation(self.id, "Line exceeds max length ({0}>{1})".format(len(line), max_length))
-
-
 class TrailingWhiteSpace(LineRule):
+    """Rule: No line may have trailing whitespace."""
     name = "trailing-whitespace"
     id = "MD009"
 
@@ -74,9 +64,22 @@ class TrailingWhiteSpace(LineRule):
 
 
 class HardTab(LineRule):
+    """Rule: No line may contain tab (\\t) characters."""
     name = "hard-tab"
     id = "MD010"
 
     def validate(self, line):
         if "\t" in line:
             return RuleViolation(self.id, "Line contains hard tab characters (\\t)")
+
+
+class MaxLineLengthRule(LineRule):
+    """Rule: No line may exceed 80 (default) characters in length."""
+    name = "max-line-length"
+    id = "MD013"
+    options_spec = [IntOption('line-length', 80, "Max line length")]
+
+    def validate(self, line):
+        max_length = self.options['line-length'].value
+        if len(line) > max_length:
+            return RuleViolation(self.id, "Line exceeds max length ({0}>{1})".format(len(line), max_length))
