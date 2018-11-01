@@ -1,18 +1,15 @@
-from pymarkdownlint.tests.base import BaseTestCase
-
-from pymarkdownlint.filefinder import MarkdownFileFinder
-
 import os
+from os.path import join
+from glob import glob
+from pymarkdownlint.tests.base import BaseTestCase
+from pymarkdownlint.filefinder import MarkdownFileFinder
 
 
 class FileFinderTests(BaseTestCase):
     def test_find_files(self):
         sample_dir = self.get_sample_path()
-        good = os.path.join(sample_dir, "good.md")
-        sample1 = os.path.join(sample_dir, "sample1.md")
-        sample2 = os.path.join(sample_dir, "sample2.md")
         files = MarkdownFileFinder.find_files(sample_dir)
-        self.assertCountEqual(files, [good, sample1, sample2])
+        self.assertCountEqual(files, glob(join(sample_dir, '*.md')))
 
         files = MarkdownFileFinder.find_files(sample_dir, filter="*.txt")
         txt1 = os.path.join(sample_dir, "ignored-sample1.txt")

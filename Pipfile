@@ -5,8 +5,6 @@ name = "pypi"
 
 [packages]
 click = "*"
-markdown = "*"
-"bs4" = "*"
 
 [dev-packages]
 pytest = "*"

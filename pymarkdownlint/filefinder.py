@@ -1,5 +1,7 @@
 import fnmatch
 import os
+from os.path import join
+from glob import glob
 
 
 class MarkdownFileFinder(object):
@@ -10,8 +12,4 @@ class MarkdownFileFinder(object):
             return [path]
 
         if os.path.isdir(path):
-            matches = []
-            for root, dirnames, filenames in os.walk(path):
-                for filename in fnmatch.filter(filenames, filter):
-                    matches.append(os.path.join(root, filename))
-            return matches
+            return glob(join(path, filter))

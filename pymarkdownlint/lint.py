@@ -1,5 +1,5 @@
-
-from pymarkdownlint import rules
+from pymarkdownlint.rules import LineRule, FileRule
+from pymarkdownlint.mdparser.parser import Parser
 
 
 class MarkdownLinter(object):
@@ -8,16 +8,19 @@ class MarkdownLinter(object):
 
     @property
     def line_rules(self):
-        return [rule for rule in self.config.rules if isinstance(rule, rules.LineRule)]
+        return [rule for rule in self.config.rules if isinstance(rule, LineRule)]
+
+    @property
+    def file_rules(self):
+        return [rule for rule in self.config.rules if isinstance(rule, FileRule)]
 
     def _apply_line_rules(self, markdown_string):
         """ Iterates over the lines in a given markdown string and applies all the enabled line rules to each line """
         all_violations = []
         lines = markdown_string.split("\n")
         line_rules = self.line_rules
-        line_nr = 1
         ignoring = False
-        for line in lines:
+        for line_nr, line in enumerate(lines, 1):
             if ignoring:
                 if line.strip() == '<!-- markdownlint:enable -->':
                     ignoring = False
@@ -29,14 +32,24 @@ class MarkdownLinter(object):
                 for rule in line_rules:
                     violation = rule.validate(line)
                     if violation:
-                        violation.line_nr = line_nr
+                        violation.data_nr = line_nr
                         all_violations.append(violation)
-            line_nr += 1
+        return all_violations
+
+    def _apply_file_rules(self, markdown_string):
+        """Iterates through all filerules."""
+        all_violations = []
+        parser = Parser(markdown_string)
+        for rule in self.file_rules:
+            violation = rule.validate(parser)
+            if violation:
+                all_violations.append(violation)
         return all_violations
 
     def lint(self, markdown_string):
         all_violations = []
         all_violations.extend(self._apply_line_rules(markdown_string))
+        all_violations.extend(self._apply_file_rules(markdown_string))
         return all_violations
 
     def lint_files(self, files):
@@ -51,5 +64,5 @@ class MarkdownLinter(object):
                 violations = self.lint(content)
                 all_violations.extend(violations)
                 for e in violations:
-                    print("{0}:{1}: {2} {3}".format(filename, e.line_nr, e.rule_id, e.message))
+                    print("{}:{}: {} {}".format(filename, e.data_nr, e.rule_id, e.message))
         return len(all_violations)

@@ -5,7 +5,7 @@ class RuleOptionError(Exception):
     pass
 
 
-class RuleOption(object):
+class RuleOption:
     def __init__(self, name, value, description):
         self.name = name
         self.value = value
@@ -17,6 +17,14 @@ class RuleOption(object):
         pass
 
 
+class StrOption(RuleOption):
+    def __init__(self, name, value, description):
+        super(StrOption, self).__init__(name, value, description)
+
+    def set(self, value):
+        self.value = str(value)
+
+
 class IntOption(RuleOption):
     def __init__(self, name, value, description, allow_negative=False):
         super(IntOption, self).__init__(name, value, description)
@@ -24,9 +32,9 @@ class IntOption(RuleOption):
 
     def raise_exception(self, value):
         if self.allow_negative:
-            error_msg = "Option '{0}' must be an integer (current value: {1})".format(self.name, value)
+            error_msg = "Option '{}' must be an integer (current value: {})".format(self.name, value)
         else:
-            error_msg = "Option '{0}' must be a positive integer (current value: {1})".format(self.name, value)
+            error_msg = "Option '{}' must be a positive integer (current value: {})".format(self.name, value)
         raise RuleOptionError(error_msg)
 
     def set(self, value):

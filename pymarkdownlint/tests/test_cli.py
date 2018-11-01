@@ -10,7 +10,7 @@ class CLITests(BaseTestCase):
         self.cli = CliRunner()
 
     def assert_output_line(self, output, index, sample_filename, error_line, expected_error):
-        expected_output = "{0}:{1}: {2}".format(self.get_sample_path(sample_filename), error_line, expected_error)
+        expected_output = "{}:{}: {}".format(self.get_sample_path(sample_filename), error_line, expected_error)
         self.assertEqual(output.split("\n")[index], expected_output)
 
     def test_no_errors(self):
@@ -20,12 +20,12 @@ class CLITests(BaseTestCase):
 
     def test_version(self):
         result = self.cli.invoke(cli.cli, ["--version"])
-        self.assertEqual(result.output.split("\n")[0], "cli, version {0}".format(__version__))
+        self.assertEqual(result.output.split("\n")[0], "cli, version {}".format(__version__))
 
     def test_config_file(self):
         args = ["--config", self.get_sample_path("markdownlint"), self.get_sample_path("sample1.md")]
         result = self.cli.invoke(cli.cli, args)
-        expected_string = "Using config from {0}".format(self.get_sample_path("markdownlint"))
+        expected_string = "Using config from {}".format(self.get_sample_path("markdownlint"))
         self.assertEqual(result.output.split("\n")[0], expected_string)
         self.assert_output_line(result.output, 1, "sample1.md", 4, "MD009 Line has trailing whitespace")
         self.assert_output_line(result.output, 2, "sample1.md", 5, "MD009 Line has trailing whitespace")
@@ -35,7 +35,7 @@ class CLITests(BaseTestCase):
     def test_config_file_negative(self):
         args = ["--config", self.get_sample_path("foo"), self.get_sample_path("sample1.md")]
         result = self.cli.invoke(cli.cli, args)
-        expected_string = "Error: Invalid value for \"--config\": Path \"{0}\" does not exist.".format(
+        expected_string = "Error: Invalid value for \"--config\": Path \"{}\" does not exist.".format(
             self.get_sample_path("foo"))
         self.assertEqual(result.output.split("\n")[3], expected_string)
 
@@ -56,7 +56,7 @@ class CLITests(BaseTestCase):
     def test_cli_list_files(self):
         result = self.cli.invoke(cli.cli, ["--list-files", self.get_sample_path()])
         expected_list = []
-        expected_files = ["good.md", "sample1.md", "sample2.md"]
+        expected_files = ["good.md", "sample1.md", "sample2.md", "filtering.md"]
         for f in expected_files:
             expected_list.append(self.get_sample_path(f))
         self.assertCountEqual(result.output.split('\n')[:-1], expected_list)

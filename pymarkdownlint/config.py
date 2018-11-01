@@ -1,20 +1,22 @@
-from pymarkdownlint import rules
+import os
 import configparser
 from collections import OrderedDict
-
-import os
+from pymarkdownlint.rules import FileRule, LineRule
 
 
 class LintConfigError(Exception):
     pass
 
 
-class LintConfig(object):
+class LintConfig:
     """ Class representing markdownlint configuration """
-    default_rule_classes = [rules.MaxLineLengthRule, rules.TrailingWhiteSpace, rules.HardTab]
+    # Have all of them as default
+    default_rule_classes = FileRule.__subclasses__() +\
+                           LineRule.__subclasses__()
 
     def __init__(self):
-        # Use an ordered dict so that the order in which rules are applied is always the same
+        # Use an ordered dict so that the order in which rules are applied is
+        # always the same
         self._rules = OrderedDict([(rule_cls.id, rule_cls()) for rule_cls in self.default_rule_classes])
 
     @property
@@ -48,14 +50,14 @@ class LintConfig(object):
     @staticmethod
     def load_from_file(filename):
         if not os.path.exists(filename):
-            raise LintConfigError("Invalid file path: {0}".format(filename))
+            raise LintConfigError("Invalid file path: {}".format(filename))
         config = LintConfig()
         try:
             parser = configparser.ConfigParser()
             parser.read(filename)
             LintConfig._parse_general_section(parser, config)
         except configparser.Error as e:
-            raise LintConfigError("Error during config file parsing: {0}".format(e.message))
+            raise LintConfigError("Error during config file parsing: {}".format(e.message))
 
         return config
 

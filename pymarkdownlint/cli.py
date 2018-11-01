@@ -23,11 +23,11 @@ def get_lint_config(config_path=None):
     # config path specified
     if config_path:
         config = LintConfig.load_from_file(config_path)
-        click.echo("Using config from {0}".format(config_path))
+        click.echo("Using config from {}".format(config_path))
     # default config path
     elif os.path.exists(DEFAULT_CONFIG_FILE):
         config = LintConfig.load_from_file(DEFAULT_CONFIG_FILE)
-        click.echo("Using config from {0}".format(DEFAULT_CONFIG_FILE))
+        click.echo("Using config from {}".format(DEFAULT_CONFIG_FILE))
     # no config file
     else:
         config = LintConfig()
@@ -37,7 +37,7 @@ def get_lint_config(config_path=None):
 
 @click.command()
 @click.option('--config', type=click.Path(exists=True),
-              help="Config file location (default: {0}).".format(DEFAULT_CONFIG_FILE))
+              help="Config file location (default: {}).".format(DEFAULT_CONFIG_FILE))
 @click.option('--list-files', is_flag=True, help="List markdown files in given path and exit.")
 @click.option('--ignore', default="", help="Ignore rules (comma-separated by id or name).")
 @click.argument('path', type=click.Path(exists=True))
