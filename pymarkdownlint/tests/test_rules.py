@@ -115,6 +115,28 @@ class FileRuleTests(BaseRuleTest):
                           1)]}
         self.setup_test(conf)
 
+    def test_beg_list_at_startofline(self):
+        """For MD006."""
+        conf = {'rule': TopLevelListIndent,
+                'okay': [({},
+                          ['some things',
+                           '',
+                           '- Happy',
+                           '- Days']),
+                         ({},
+                          ['some things',
+                           '',
+                           '- Happy',
+                           '  - Days'])],
+                'bad':  [({},
+                          ['some things',
+                           '',
+                           ' - Happy',
+                           ' - Days'],
+                          TopLevelListIndent.error_str,
+                          3)]}
+        self.setup_test(conf)
+
 
 class LineRuleTests(BaseRuleTest):
     """Tests all line rules"""

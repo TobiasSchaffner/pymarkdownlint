@@ -63,11 +63,13 @@ class TopLevelListIndent(FileRule):
 
     def validate(self, parser):
         last_line = None
+        is_list = [Tag.unlist, Tag.ordlist]
 
         for line in parser.lines:
-            if last_line and (last_line != Tag.unlist or last_line != Tag.ordlist):
+            # Last line must not be a list, and the current line must be
+            if last_line and last_line not in is_list and line.tag in is_list:
                 # Check if there is space between the start and the list
-                if len(line.text) != len(line.text.lstrip()):
+                if line.indents > 0:
                     return RuleViolation(self.id, self.error_str, line.lineno)
 
             last_line = line.tag
