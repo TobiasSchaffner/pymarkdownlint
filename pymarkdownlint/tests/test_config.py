@@ -1,7 +1,7 @@
 from pymarkdownlint.tests.base import BaseTestCase
 from pymarkdownlint.config import LintConfig, LintConfigError
 
-from pymarkdownlint import rules
+from pymarkdownlint.rules.linerule import MaxLineLengthRule, TrailingWhiteSpace
 
 
 class LintConfigTests(BaseTestCase):
@@ -9,12 +9,12 @@ class LintConfigTests(BaseTestCase):
         config = LintConfig()
 
         # get by id
-        expected = rules.MaxLineLengthRule()
+        expected = MaxLineLengthRule()
         rule = config.get_rule_by_name_or_id('MD013')
         self.assertEqual(rule, expected)
 
         # get by name
-        expected = rules.TrailingWhiteSpace()
+        expected = TrailingWhiteSpace()
         rule = config.get_rule_by_name_or_id('trailing-whitespace')
         self.assertEqual(rule, expected)
 

@@ -11,7 +11,7 @@ del os.link
 
 long_description = (
     "Markdown linter written in python. Under active development."
-    "Source code: https://github.com/jorisroovers/pymarkdownlint"
+    "Source code: https://github.com/cheukyin699/pymarkdownlint"
 )
 
 

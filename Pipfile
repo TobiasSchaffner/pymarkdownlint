@@ -10,6 +10,7 @@ click = "*"
 pytest = "*"
 pytest-cov = "*"
 codecov = "*"
+ipython = "*"
 
 [requires]
 python_version = "3.7"

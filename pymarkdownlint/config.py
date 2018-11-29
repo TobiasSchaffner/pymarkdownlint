@@ -1,7 +1,9 @@
 import os
 import configparser
 from collections import OrderedDict
-from pymarkdownlint.rules import FileRule, LineRule
+from pymarkdownlint.rules.base import FileRule, LineRule
+from pymarkdownlint.rules.filerule import *
+from pymarkdownlint.rules.linerule import *
 
 
 class LintConfigError(Exception):
@@ -17,7 +19,8 @@ class LintConfig:
     def __init__(self):
         # Use an ordered dict so that the order in which rules are applied is
         # always the same
-        self._rules = OrderedDict([(rule_cls.id, rule_cls()) for rule_cls in self.default_rule_classes])
+        self._rules = OrderedDict([(rule_cls.id, rule_cls())
+                                   for rule_cls in self.default_rule_classes])
 
     @property
     def rules(self):

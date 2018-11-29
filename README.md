@@ -7,11 +7,13 @@
 Markdown linter written in python. Inspired by [mivok/markdownlint](https://github.com/mivok/markdownlint).
 
 Get started by running:
+
 ```bash
 markdownlint examples/             # lint all files in a directory
 markdownlint examples/example1.md  # lint a single file
 markdownlint examples/example1.md  # lint a single file
 ```
+
 NOTE: The returned exit code equals the number of errors found.
 
 Other commands and variations:
@@ -29,13 +31,15 @@ Options:
   --help         Show this message and exit.
 ```
 
-You can modify pymarkdownlint's behavior by specifying a config file like so: 
+You can modify pymarkdownlint's behavior by specifying a config file like so:
+
 ```bash
-markdownlint --config myconfigfile 
+markdownlint --config myconfigfile
 ```
+
 By default, markdownlint will look for an **optional** `.markdownlint` file for configuration.
 
-## Config file ##
+## Config file
 
 ```
 [general]
@@ -43,13 +47,14 @@ By default, markdownlint will look for an **optional** `.markdownlint` file for 
 ignore=max-line-length,MD013
 ```
 
-## Supported Rules ##
+## Supported Rules
 
 Please see the ruleset [here][ruleset].
 
-## Development ##
+## Development
 
 Installation:
+
 ```bash
 # Use pipenv for development
 pip install pipenv
@@ -58,12 +63,14 @@ pipenv shell
 ```
 
 To run tests:
+
 ```bash
-pipenv shell        # If you have yet to run this
+pipenv shell        # If you have not run this yet
 pytest
 ```
 
-## Wishlist ##
+## Wishlist
+
 - More rules!
 - Better output handling with verbosity levels
 - Ignore/exclude files CLI options

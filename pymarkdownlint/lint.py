@@ -1,4 +1,4 @@
-from pymarkdownlint.rules import LineRule, FileRule
+from pymarkdownlint.rules.base import LineRule, FileRule
 from pymarkdownlint.mdparser.parser import Parser
 
 

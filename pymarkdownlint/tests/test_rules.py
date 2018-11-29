@@ -1,9 +1,13 @@
 from pymarkdownlint.tests.base import BaseTestCase
 from pymarkdownlint.mdparser.parser import Parser
-from pymarkdownlint.rules import *
+from pymarkdownlint.rules.base import *
+from pymarkdownlint.rules.filerule import *
+from pymarkdownlint.rules.linerule import *
 
 
-class RuleTests(BaseTestCase):
+class FileRuleTests(BaseTestCase):
+    """Tests all file rules"""
+
     def test_header_inc(self):
         """For MD001."""
         rule = HeaderIncrement()
@@ -75,6 +79,10 @@ Tamagachis
                                            rule.error_str.format('-'),
                                            1)
         self.assertEqual(violation, expected_violation)
+
+
+class LineRuleTests(BaseTestCase):
+    """Tests all line rules"""
 
     def test_trailing_whitespace(self):
         """For MD009."""

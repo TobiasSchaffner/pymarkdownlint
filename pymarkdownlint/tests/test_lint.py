@@ -1,7 +1,7 @@
 from pymarkdownlint.tests.base import BaseTestCase
 
 from pymarkdownlint.lint import MarkdownLinter
-from pymarkdownlint.rules import RuleViolation
+from pymarkdownlint.rules.base import RuleViolation
 from pymarkdownlint.config import LintConfig
 
 
