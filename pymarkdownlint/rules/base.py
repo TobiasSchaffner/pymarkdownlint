@@ -13,11 +13,11 @@ class Rule(object, metaclass=ABCMeta):
 
     def __init__(self, opts={}):
         self.options = {}
-        for op_spec in self.options_spec:
-            self.options[op_spec.name] = op_spec
-            actual_option = opts.get(op_spec.name)
+        for spec in self.options_spec:
+            self.options[spec.name] = spec.clone()
+            actual_option = opts.get(spec.name)
             if actual_option:
-                self.options[op_spec.name].set(actual_option)
+                self.options[spec.name].set(actual_option)
 
     def __eq__(self, other):
         return self.id == other.id and self.name == other.name

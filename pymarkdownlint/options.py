@@ -16,6 +16,11 @@ class RuleOption:
         """ Validates and sets the option's value """
         pass
 
+    @abstractmethod
+    def clone(self):
+        """ Clones and returns a class """
+        return None
+
 
 class StrOption(RuleOption):
     def __init__(self, name, value, description):
@@ -23,6 +28,9 @@ class StrOption(RuleOption):
 
     def set(self, value):
         self.value = str(value)
+
+    def clone(self):
+        return StrOption(self.name, self.value, self.description)
 
 
 class IntOption(RuleOption):
@@ -45,3 +53,7 @@ class IntOption(RuleOption):
 
         if not self.allow_negative and self.value < 0:
             self.raise_exception(value)
+
+    def clone(self):
+        return IntOption(self.name, self.value, self.description,
+                         self.allow_negative)

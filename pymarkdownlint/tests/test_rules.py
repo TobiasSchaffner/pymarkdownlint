@@ -5,134 +5,159 @@ from pymarkdownlint.rules.filerule import *
 from pymarkdownlint.rules.linerule import *
 
 
-class FileRuleTests(BaseTestCase):
+class BaseRuleTest(BaseTestCase):
+    """A basic (automated) rule test"""
+
+    def setup_test(self, config):
+        """
+        A shorthand for setting up tests, succinctly.
+
+        ``config`` is a dictionary of things, including:
+        - ``rule``: the actual rule to test
+        - ``okay``: a list of text (list of strings) that comply with the rule
+        - ``bad``: a list of tuples, first the text, then the violation (filled
+          out, if you please)
+
+        Note that the first element in the tuple is always the configuration
+        that goes with the rule.
+
+        An example::
+
+            conf = {'rule': HeaderIncrement,
+                    'okay': [({},
+                              ['# Hello world',
+                               '## Nice day you got there',
+                               '# Yoshi']],
+                    'bad':  [({},
+                              ['# Hello world',
+                               '### Nice day you got there',
+                               '# Yoshi'],
+                              HeaderIncrement.error_str,
+                              2)]}
+
+        Note that only :class:`FileRule` have lists as arguments.
+        :class:`LineRule` have strings as arguments.
+
+        :param config: configuration to run tests on
+        """
+        for cfg, text in config['okay']:
+            # Assert no errors
+            rule = config['rule'](cfg)
+            if isinstance(text, list):
+                # Only FileRules have lists as arguments
+                text = Parser('\n'.join(text))
+            violation = rule.validate(text)
+            self.assertIsNone(violation)
+
+        for cfg, text, err, lineno in config['bad']:
+            # Assert errors
+            rule = config['rule'](cfg)
+            if isinstance(text, list):
+                # Only FileRules have lists as arguments
+                text = Parser('\n'.join(text))
+            observed = rule.validate(text)
+            expected = RuleViolation(rule.id, err, lineno)
+            self.assertEqual(observed, expected)
+
+
+class FileRuleTests(BaseRuleTest):
     """Tests all file rules"""
 
     def test_header_inc(self):
         """For MD001."""
-        rule = HeaderIncrement()
-
-        # assert no error
-        violation = rule.validate(Parser("""# Hello world
-## Nice day you got there
-# Yoshi
-"""))
-        self.assertIsNone(violation)
-
-        # assert error with bad headers
-        violation = rule.validate(Parser("""# Hello world
-### Nice day you got there
-# Yoshi
-"""))
-        expected_violation = RuleViolation(rule.id, rule.error_str, 2)
-        self.assertEqual(violation, expected_violation)
+        conf = {'rule': HeaderIncrement,
+                'okay': [({},
+                          ['# Hello world',
+                           '## Nice day you got there',
+                           '# Yoshi'])],
+                'bad':  [({},
+                          ['# Hello world',
+                           '### Nice day you got there',
+                           '# Yoshi'],
+                          HeaderIncrement.error_str,
+                          2)]}
+        self.setup_test(conf)
 
     def test_top_level_header(self):
         """For MD002."""
-        rule = TopLevelHeader()
-
-        # assert no error
-        violation = rule.validate(Parser("""# Hello wood
-
-Tamagachis
-"""))
-        self.assertIsNone(violation)
-
-        # assert error
-        violation = rule.validate(Parser("""## hellowood
-
-Tamagachis
-"""))
-        expected_violation = RuleViolation(rule.id, rule.error_str, 1)
-        self.assertEqual(violation, expected_violation)
-
-        # no errors if you configured it right
-        rule = TopLevelHeader({'first-header-level': 2})
-        violation = rule.validate(Parser("""## hello wood
-
-Tamagachis
-"""))
-        self.assertIsNone(violation)
+        conf = {'rule': TopLevelHeader,
+                'okay': [({},
+                          ['# Hello wood',
+                           '',
+                           'Tamagachis']),
+                         ({'first-header-level': 2},
+                          ['## hello wood',
+                           '',
+                           'Tamagachis'])],
+                'bad':  [({},
+                          ['## hellowood',
+                           '',
+                           'Tamagachis'],
+                          TopLevelHeader.error_str,
+                          1)]}
+        self.setup_test(conf)
 
     def test_unlist_styles(self):
         """For MD004."""
-        rule = UnorderedListStyle()
-
-        # assert no error
-        self.assertIsNone(rule.validate(Parser("""- happy
-- day
-""")))
-
-        # assert error
-        violation = rule.validate(Parser("""- happy
-+ day
-"""))
-        expected_violation = RuleViolation(rule.id,
-                                           rule.error_str.format('-'),
-                                           2)
-        self.assertEqual(violation, expected_violation)
-        rule = UnorderedListStyle({'unordered-list-style': 'dash'})
-        violation = rule.validate(Parser("""+ happy
-+ day
-"""))
-        expected_violation = RuleViolation(rule.id,
-                                           rule.error_str.format('-'),
-                                           1)
-        self.assertEqual(violation, expected_violation)
+        conf = {'rule': UnorderedListStyle,
+                'okay': [({},
+                          ['- happy',
+                           '- day'])],
+                'bad':  [({},
+                          ['- happy',
+                           '+ day'],
+                          UnorderedListStyle.error_str.format('-'),
+                          2),
+                         ({'unordered-list-style': 'dash'},
+                          ['+ happy',
+                           '+ day'],
+                          UnorderedListStyle.error_str.format('-'),
+                          1)]}
+        self.setup_test(conf)
 
 
-class LineRuleTests(BaseTestCase):
+class LineRuleTests(BaseRuleTest):
     """Tests all line rules"""
 
     def test_trailing_whitespace(self):
         """For MD009."""
-        rule = TrailingWhiteSpace()
-
-        # assert no error
-        violation = rule.validate("a")
-        self.assertIsNone(violation)
-
-        # trailing space
-        expected_violation = RuleViolation(rule.id, rule.error_str)
-        violation = rule.validate("a ")
-        self.assertEqual(violation, expected_violation)
-
-        # trailing tab
-        violation = rule.validate("a\t")
-        self.assertEqual(violation, expected_violation)
+        conf = {'rule': TrailingWhiteSpace,
+                'okay': [({},
+                          'a')],
+                'bad':  [({},
+                          'a ',
+                          TrailingWhiteSpace.error_str,
+                          None),
+                         ({},
+                          'a\t',
+                          TrailingWhiteSpace.error_str,
+                          None)]}
+        self.setup_test(conf)
 
     def test_hard_tabs(self):
         """For MD010."""
-        rule = HardTab()
-
-        # assert no error
-        violation = rule.validate("This is a test")
-        self.assertIsNone(violation)
-
-        # contains hard tab
-        expected_violation = RuleViolation(rule.id, rule.error_str)
-        violation = rule.validate("This is a\ttest")
-        self.assertEqual(violation, expected_violation)
+        conf = {'rule': HardTab,
+                'okay': [({},
+                          'This is a test')],
+                'bad':  [({},
+                          'This is a\ttest',
+                          HardTab.error_str,
+                          None)]}
+        self.setup_test(conf)
 
     def test_max_line_length(self):
         """For MD013."""
-        rule = MaxLineLengthRule()
-
-        # assert no error
-        violation = rule.validate("a" * 80)
-        self.assertIsNone(violation)
-
-        # assert error on line length > 81
-        expected_violation = RuleViolation("MD013", "Line exceeds max length (81>80)")
-        violation = rule.validate("a" * 81)
-        self.assertEqual(violation, expected_violation)
-
-        # set line length to 120, and check no violation on length 81
-        rule = MaxLineLengthRule({'line-length': 120})
-        violation = rule.validate("a" * 81)
-        self.assertIsNone(violation)
-
-        # assert raise on 121
-        expected_violation = RuleViolation("MD013", "Line exceeds max length (121>120)")
-        violation = rule.validate("a" * 121)
-        self.assertEqual(violation, expected_violation)
+        conf = {'rule': MaxLineLengthRule,
+                'okay': [({},
+                          'a' * 80),
+                         ({'line-length': 120},
+                          'a' * 81)],
+                'bad':  [({},
+                          'a' * 81,
+                          MaxLineLengthRule.error_str.format(81, 80),
+                          None),
+                         ({'line-length': 120},
+                          'a' * 121,
+                          MaxLineLengthRule.error_str.format(121, 120),
+                          None)]}
+        self.setup_test(conf)

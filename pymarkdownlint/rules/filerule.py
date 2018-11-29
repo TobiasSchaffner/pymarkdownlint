@@ -1,5 +1,7 @@
 from pymarkdownlint.options import IntOption, StrOption
 from pymarkdownlint.rules.base import FileRule, RuleViolation
+from pymarkdownlint.mdparser.tag import Tag
+from pymarkdownlint.mdparser.parser import Parser
 
 
 class HeaderIncrement(FileRule):
@@ -60,4 +62,12 @@ class TopLevelListIndent(FileRule):
     error_str = "Consider starting bulleted lists at beginning of line"
 
     def validate(self, parser):
-        pass
+        last_line = None
+
+        for line in parser.lines:
+            if last_line and (last_line != Tag.unlist or last_line != Tag.ordlist):
+                # Check if there is space between the start and the list
+                if len(line.text) != len(line.text.lstrip()):
+                    return RuleViolation(self.id, self.error_str, line.lineno)
+
+            last_line = line.tag
