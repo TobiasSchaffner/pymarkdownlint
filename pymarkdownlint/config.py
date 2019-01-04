@@ -1,7 +1,7 @@
 import os
 import configparser
 from collections import OrderedDict
-from pymarkdownlint.rules.base import FileRule, LineRule
+from pymarkdownlint.rules import FileRule, LineRule
 from pymarkdownlint.rules.filerule import *
 from pymarkdownlint.rules.linerule import *
 

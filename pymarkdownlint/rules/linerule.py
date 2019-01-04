@@ -1,6 +1,6 @@
 import re
 from pymarkdownlint.options import IntOption, StrOption
-from pymarkdownlint.rules.base import LineRule, RuleViolation
+from pymarkdownlint.rules import LineRule, RuleViolation
 
 
 class TrailingWhiteSpace(LineRule):

@@ -1,5 +1,5 @@
 from pymarkdownlint.options import IntOption, StrOption
-from pymarkdownlint.rules.base import FileRule, RuleViolation
+from pymarkdownlint.rules import FileRule, RuleViolation
 from pymarkdownlint.mdparser.tag import Tag
 from pymarkdownlint.mdparser.parser import Parser
 

@@ -1,6 +1,6 @@
 from pymarkdownlint.tests.base import BaseTestCase
 from pymarkdownlint.mdparser.parser import Parser
-from pymarkdownlint.rules.base import *
+from pymarkdownlint.rules import *
 from pymarkdownlint.rules.filerule import *
 from pymarkdownlint.rules.linerule import *
 
