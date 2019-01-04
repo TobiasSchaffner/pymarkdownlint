@@ -1,7 +1,7 @@
 import os
 from os.path import join
 from glob import glob
-from pymarkdownlint.tests.base import BaseTestCase
+from pymarkdownlint.tests import BaseTestCase
 from pymarkdownlint.filefinder import MarkdownFileFinder
 
 

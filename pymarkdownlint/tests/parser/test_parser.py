@@ -1,6 +1,6 @@
 """Tests pymarkdownlint.mdparser.parser."""
 from os.path import join
-from pymarkdownlint.tests.base import BaseTestCase
+from pymarkdownlint.tests import BaseTestCase
 from pymarkdownlint.mdparser.tag import Tag
 from pymarkdownlint.mdparser.parser import *
 
