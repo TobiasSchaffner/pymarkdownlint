@@ -37,7 +37,9 @@ setup(
         "License :: OSI Approved :: MIT License"
     ],
     install_requires=[
-        'Click==7.0',
+        'bs4==0.0.1',
+        'click==7.1.2',
+        'Markdown==3.3.4',
     ],
     keywords='markdown markdownlint pymarkdownlint',
     author='Cheuk Yin Ng',
