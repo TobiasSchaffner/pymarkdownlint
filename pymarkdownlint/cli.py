@@ -40,11 +40,14 @@ def get_lint_config(config_path=None):
               help="Config file location (default: {0}).".format(DEFAULT_CONFIG_FILE))
 @click.option('--list-files', is_flag=True, help="List markdown files in given path and exit.")
 @click.option('--ignore', default="", help="Ignore rules (comma-separated by id or name).")
-@click.argument('path', type=click.Path(exists=True))
+@click.argument('paths', nargs=-1, type=click.Path(exists=True))
 @click.version_option(version=pymarkdownlint.__version__)
-def cli(list_files, config, ignore, path):
+def cli(list_files, config, ignore, paths):
     """ Markdown lint tool, checks your markdown for styling issues """
-    files = MarkdownFileFinder.find_files(path)
+    files = []
+    for path in paths:
+        files.extend(MarkdownFileFinder.find_files(path))
+
     if list_files:
         echo_files(files)
 
